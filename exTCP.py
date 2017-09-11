@@ -9,6 +9,7 @@ s.listen(1)
 
 #CLIENT
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+#ip in next line is my public ip I think.
 s.connect(('192.168.124.255',80))
 data = s.recv((BUFFER_SIZE))
 s.close()
