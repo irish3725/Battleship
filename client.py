@@ -7,9 +7,9 @@ params = urllib.parse.urlencode({'@number': 12524, '@type': 'issue', '@action': 
 # headers for post request
 headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
 # connection to server
-conn = http.client.HTTPConnection("bugs.python.org")
+conn = http.client.HTTPConnection("localhost:5000")
 # make a post request
-conn.request("POST", "", params, headers)
+conn.request("POST", "/")
 # get the response to that request and save it to r1
 r1 = conn.getresponse()
 # print the contents(html code) of that response
