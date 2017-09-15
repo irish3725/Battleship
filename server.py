@@ -10,8 +10,7 @@ class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         # send response status code
-        self.send_response(200)
-        
+        self.send_response(301) 
         # send headers
         self.send_header('content-type','text/html')
         self.end_headers()
