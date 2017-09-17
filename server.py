@@ -4,19 +4,18 @@
 # https://daanlenaerts.com/blog/2015/06/03/create-a-simple-http-server-with-python-3/
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
-
 # This class handles requests
 class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         # send response status code
-        self.send_response(301) 
+        self.send_response(200) 
         # send headers
         self.send_header('content-type','text/html')
         self.end_headers()
 
         # send message back to client
-        message = "Woah that was a post request."
+        message = "Woah that was a post request.\n"
         # write content as utf-8 data
         self.wfile.write(bytes(message, "utf8"))
         return
