@@ -13,13 +13,13 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
-        # send response status code
-        self.send_response(200) 
-        # send headers
-        self.send_header('content-type','text/html')
-        self.end_headers()
-
-        ctype, pdict = cgi.parse_header(self.headers['content-type'])
+        
+        # make sure request is formatted correctly
+        try:
+            ctype, pdict = cgi.parse_header(self.headers['content-type'])
+        # if not, send error 400 
+        except TypeError:
+            self.send_error(400, 'not formatted correctly')
         length = int(self.headers['content-length'])
         postvars = urllib.parse.parse_qs(self.rfile.read(length), keep_blank_values=1)
         
@@ -28,10 +28,20 @@ class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
                 x = postvars[key]
             elif str(key) == "b'y'":
                 y = postvars[key]
-
-        
+       
+        # change values from lists to integers
         x = int(x[0])
         y = int(y[0])
+       
+        # check to see if values are in bounds 
+        if x > 9 or x < 0 or y > 9 or y < 0:
+            #self.send_response(404)
+            #self.send_header('content-type','text/html')
+            #self.end_headers()
+            self.send_error(404, 'out of bounds') 
+            return
+       
+        # if they are in bounds 
         index = (11*y) + x
         print(x, y, index)
         hit = checkBoard(index)
@@ -41,6 +51,12 @@ class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
             hit = 0
         message = 'hit=%d' % hit
         print(message)
+
+        # send response status code
+        self.send_response(200) 
+        # send headers
+        self.send_header('content-type','text/html')
+        self.end_headers()
 
         return
 
