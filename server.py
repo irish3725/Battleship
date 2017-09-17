@@ -20,6 +20,7 @@ class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
         # if not, send error 400 
         except TypeError:
             self.send_error(400, 'not formatted correctly')
+        
         length = int(self.headers['content-length'])
         postvars = urllib.parse.parse_qs(self.rfile.read(length), keep_blank_values=1)
         
@@ -52,8 +53,10 @@ class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
         message = 'hit=%d' % hit
         print(message)
 
+        headers = {"Content-type": "applicaton/x-www-form-urlencoded", "Accept": "text/plain"}
+
         # send response status code
-        self.send_response(200) 
+        self.send_response(200,message) 
         # send headers
         self.send_header('content-type','text/html')
         self.end_headers()

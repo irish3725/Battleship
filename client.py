@@ -1,5 +1,6 @@
 #!/usr/bin/python3.6
 
+import re
 import sys
 import argparse
 import http.client, urllib.parse
@@ -26,6 +27,14 @@ def run():
     r1 = conn.getresponse()
     # print the contents(html code) of that response
     print(r1.read())
+    print(r1.status,r1.reason)
     conn.close()
+    updateBoard(r1.reason)
+
+def updateBoard(message):
+    result = re.match('(hit=)(\d)',message)
+    hit = result.group(2)
+    print('hit=',hit)
 
 run()
+
