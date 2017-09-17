@@ -32,9 +32,11 @@ def run():
     updateBoard(r1.reason)
 
 def updateBoard(message):
-    result = re.match('(hit=)(\d)',message)
+    result = re.match('(hit=)(\d)(sink=)(\d)',message)
     hit = result.group(2)
-    print('hit=',hit)
+    sink = result.group(4)
+    print('hit =',hit)
+    print('sink =',sink)
 
 run()
 

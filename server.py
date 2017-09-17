@@ -51,6 +51,7 @@ class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
         elif hit == False:
             hit = 0
         message = 'hit=%d' % hit
+        message = message + 'sink=0'
         print(message)
 
         headers = {"Content-type": "applicaton/x-www-form-urlencoded", "Accept": "text/plain"}
