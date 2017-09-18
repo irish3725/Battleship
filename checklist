@@ -3,9 +3,9 @@ TODO:
 out of bounds error                                 x   
 already fired there error       
 not formatted correctly error                       x
-write to own board
-write to opponent board
-check for sink
-check for win
-reset all
+write to own board  
+write to opponent board                             x
+check for sink  
+check for win   
+reset all   
 
