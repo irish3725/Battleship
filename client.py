@@ -1,5 +1,6 @@
 #!/usr/bin/python3.6
 
+import re
 import sys
 import argparse
 import http.client, urllib.parse
@@ -15,7 +16,6 @@ def run():
     # parameters for the request request
     params = urllib.parse.urlencode({'x': x, 'y': y})
     print(params)   
-    #params = urllib.parse.urlencode({'@number': 12524, '@type': 'issue', '@action': 'show'})
     # headers for post request
     headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
     # connection to server
@@ -26,6 +26,40 @@ def run():
     r1 = conn.getresponse()
     # print the contents(html code) of that response
     print(r1.read())
+    print(r1.status,r1.reason)
     conn.close()
+    updateBoard(r1.reason,params)
+
+def updateBoard(message,params):
+    # get hit/sink results
+    result = re.match('(hit=)(\d)(sink=)(\w*)(.*)',message)
+    if result == None: 
+        print("result was none")
+        return
+    hit = result.group(2)
+    sink = result.group(4)
+    
+    # if hit is true make that on opponent board.
+    opponent = open('opponent.txt', 'r')
+    oBoard = opponent.read()
+    opponent.close()
+    x = int(float(params[2]))
+    y = int(float(params[6]))
+    index = x + (11 * y)
+    mark = "-"
+    if hit == "1":
+        mark = "x"
+    if sink != "":
+        mark = sink
+    print('x =',x) 
+    print('y =',y) 
+    oBoard = oBoard[:index] + mark + oBoard[index+1:]
+    print(oBoard)
+    opponent = open('opponent.txt', 'w')
+    opponent.write(oBoard)
+    opponent.close() 
+    print('hit =',hit)
+    print('sink =',sink)
 
 run()
+
