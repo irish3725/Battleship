@@ -4,6 +4,7 @@ import argparse
 import sys
 import cgi 
 import urllib
+from os import curdir, sep
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 board = None
@@ -81,18 +82,34 @@ class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
     
     # handle get request
     def do_GET(self):
+        
+        try:
+            if self.path.endswith(".txt"):
+                f = open(curdir + sep + self.path) #self.path has /test.html
+#note that this potentially makes every file on your computer readable by the internet
+
+                self.send_response(200)
+                self.send_header('Content-type',    'text/html')
+                self.end_headers()
+                self.wfile.write(f.read())
+                f.close()
+                return
+
+        except IOError:
+            self.send_error(404,'File Not Found: %s' % self.path)
+        
         # send response status code
-        self.send_response(200)
+        #self.send_response(200)
         
         # send headers
         #self.send_header('content-type','text/html')
-        self.send_header('content-type','attachment; filename=opponentboard.txt')
-        self.end_headers()
+        #self.send_header('content-type','attachment; filename=opponentboard.txt')
+        #self.end_headers()
 
         # send message back to client
-        message = "Hello world!"    
+        #message = "Hello world!"    
         # write content as utf-8 data
-        self.wfile.write(bytes(message, "utf8"))
+        #self.wfile.write(bytes(message, "utf8"))
         return
 
 def checkWin():

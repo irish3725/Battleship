@@ -1,5 +1,5 @@
 #!/bin/bash
 
-cp blank.txt opponent.txt
-cp board.cp board.txt
+cp blank.txt opponent_board.txt
+cp board.cp own_board.txt
 
