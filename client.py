@@ -24,7 +24,7 @@ def run():
     conn.request("POST", "/", params, headers)
     # get the response to that request and save it to r1
     r1 = conn.getresponse()
-    # print the contents(html code) of that response
+    # print the contents.txt code) of that response
     print(r1.read())
     print(r1.status,r1.reason)
     conn.close()
@@ -40,7 +40,7 @@ def updateBoard(message,params):
     sink = result.group(4)
     
     # if hit is true make that on opponent board.
-    opponent = open('opponent_board.html', 'r')
+    opponent = open('opponent_board.txt', 'r')
     oBoard = opponent.read()
     opponent.close()
     x = int(float(params[2]))
@@ -55,7 +55,7 @@ def updateBoard(message,params):
     print('y =',y) 
     oBoard = oBoard[:index] + mark + oBoard[index+1:]
     print(oBoard)
-    opponent = open('opponent_board.html', 'w')
+    opponent = open('opponent_board.txt', 'w')
     opponent.write(oBoard)
     opponent.close() 
     print('hit =',hit)

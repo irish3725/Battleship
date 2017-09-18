@@ -9,7 +9,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer, SimpleHTTPRequestHan
 
 board = None
 bFile = None
-sunk = 4 
+sunk = 0 
 lastHit = None
 done = False
 
@@ -85,7 +85,7 @@ class HTTPServer_RequestHandler(SimpleHTTPRequestHandler):
 ##    def do_GET(self):
 #        
 #        try:
-#            if self.path.endswith(".html"):
+#            if self.path.endswith(".txt"):
 #                f = open(curdir + sep + self.path)
 #                self.send_response(200)
 #                self.send_header('Content-type',    'text/html')
