@@ -40,7 +40,7 @@ def updateBoard(message,params):
     sink = result.group(4)
     
     # if hit is true make that on opponent board.
-    opponent = open('opponent.txt', 'r')
+    opponent = open('opponent_board.txt', 'r')
     oBoard = opponent.read()
     opponent.close()
     x = int(float(params[2]))
@@ -55,7 +55,7 @@ def updateBoard(message,params):
     print('y =',y) 
     oBoard = oBoard[:index] + mark + oBoard[index+1:]
     print(oBoard)
-    opponent = open('opponent.txt', 'w')
+    opponent = open('opponent_board.txt', 'w')
     opponent.write(oBoard)
     opponent.close() 
     print('hit =',hit)

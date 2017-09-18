@@ -85,31 +85,29 @@ class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
         
         try:
             if self.path.endswith(".txt"):
-                f = open(curdir + sep + self.path) #self.path has /test.html
-#note that this potentially makes every file on your computer readable by the internet
-
+                f = open(curdir + sep + self.path)
                 self.send_response(200)
                 self.send_header('Content-type',    'text/html')
                 self.end_headers()
-                self.wfile.write(f.read())
+                self.wfile.write(bytes(f.read(),'utf8'))
+                f.close()
+                return
+            elif self.path.endswith(".html"):
+                f = open(curdir + sep + self.path)
+                self.send_response(200)
+                self.send_header('Content-type',    'text/html')
+                self.end_headers()
+                self.wfile.write(bytes(f.read(),'utf8'))
                 f.close()
                 return
 
         except IOError:
             self.send_error(404,'File Not Found: %s' % self.path)
-        
-        # send response status code
-        #self.send_response(200)
-        
-        # send headers
-        #self.send_header('content-type','text/html')
-        #self.send_header('content-type','attachment; filename=opponentboard.txt')
-        #self.end_headers()
-
         # send message back to client
-        #message = "Hello world!"    
+        message = board.splitlines()
         # write content as utf-8 data
-        #self.wfile.write(bytes(message, "utf8"))
+        for line in message:
+            self.wfile.write(bytes(line+"\n","utf8"))
         return
 
 def checkWin():
@@ -172,7 +170,8 @@ def run():
     # server setting
     # choosing port 5000 (maybe have to use 5001?)
     #server_address = ('127.0.0.1', port)
-    server_address = ('localhost', port)
+    #server_address = ('10.200.45.213', port)
+    server_address = ('0.0.0.0', port)
     httpd = HTTPServer(server_address, HTTPServer_RequestHandler)
     print('running server...')
     httpd.serve_forever()
