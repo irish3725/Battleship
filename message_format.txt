@@ -1,0 +1,3 @@
+POST message: "x=A&y=B" where A and B are user input coordinates
+
+GET message: http://IP:port/own_board.txt where IP and port are the IP address and port number of the server. opponent_board.txt can be used alternatively to own_board.txt
