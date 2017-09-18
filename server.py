@@ -9,6 +9,8 @@ import cgi
 import urllib
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
+board = None
+
 # This class handles requests
 class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
 
@@ -36,15 +38,12 @@ class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
        
         # check to see if values are in bounds 
         if x > 9 or x < 0 or y > 9 or y < 0:
-            #self.send_response(404)
-            #self.send_header('content-type','text/html')
-            #self.end_headers()
             self.send_error(404, 'out of bounds') 
             return
        
         # if they are in bounds 
         index = (11*y) + x
-        print(x, y, index)
+        print("x, y, index =",x, y, index)
         hit = checkBoard(index)
         if hit == 0:
             hit = 0
@@ -55,7 +54,7 @@ class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
             hit = 1
         message = 'hit=%d' % hit
         message = message + 'sink=0'
-        print(message)
+        print("message =",message)
 
         headers = {"Content-type": "applicaton/x-www-form-urlencoded", "Accept": "text/plain"}
 
@@ -84,28 +83,38 @@ class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
         return
 
 def checkBoard(i):
-    print(board[i])
+    global board
+    print("boat =",board[i])
     if board[i] == '_':
-        return 0 
+        writeBoard(i,"-")
+        return 0  
     elif board[1] == '-' or board[1] == 'x':
         return 1 
     else:
+        writeBoard(i,"x")
         return 2
+
+def writeBoard(index, mark):
+    global board 
+    board = board[:index] + mark + board[index+1:]
+    f = open("board.txt","w")
+    print("writing\n"+board)
+    f.write(board)
+    f.close()
 
 def readBoard(f):
     b = ""
     with open(f, 'r') as infile:
         for line in infile:
             b = b + line
-    global board
-    board = b
     return b
 
 def run():
-    
+
+    global board    
     port = int(sys.argv[1])
     f = sys.argv[2]
-    readBoard(f)
+    board = readBoard(f)
     print(board)
     print('starting server...')
     # server setting

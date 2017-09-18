@@ -1,4 +1,4 @@
-CxCCC____
+CCCCC____
 BBBB_____
 RRR______
 SSS______
