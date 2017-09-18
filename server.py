@@ -1,8 +1,5 @@
 #!/usr/bin/python3.6
 
-# server from:
-# https://daanlenaerts.com/blog/2015/06/03/create-a-simple-http-server-with-python-3/
-
 import argparse
 import sys
 import cgi 
@@ -13,6 +10,7 @@ board = None
 bFile = None
 sunk = 4 
 lastHit = None
+done = False
 
 # This class handles requests
 class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
@@ -87,7 +85,8 @@ class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         
         # send headers
-        self.send_header('content-type','text/html')
+        #self.send_header('content-type','text/html')
+        self.send_header('content-type','attachment; filename=opponentboard.txt')
         self.end_headers()
 
         # send message back to client
@@ -155,7 +154,8 @@ def run():
     print('starting server...')
     # server setting
     # choosing port 5000 (maybe have to use 5001?)
-    server_address = ('127.0.0.1', port)
+    #server_address = ('127.0.0.1', port)
+    server_address = ('localhost', port)
     httpd = HTTPServer(server_address, HTTPServer_RequestHandler)
     print('running server...')
     httpd.serve_forever()

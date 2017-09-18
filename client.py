@@ -61,5 +61,8 @@ def updateBoard(message,params):
     print('hit =',hit)
     print('sink =',sink)
 
+def writeDisplay():
+    return
+
 run()
 
