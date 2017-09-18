@@ -32,8 +32,9 @@ def run():
 
 def updateBoard(message,params):
     # get hit/sink results
-    result = re.match('(hit=)(\d)(sink=)(\w*)',message)
+    result = re.match('(hit=)(\d)(sink=)(\w*)(.*)',message)
     if result == None: 
+        print("result was none")
         return
     hit = result.group(2)
     sink = result.group(4)

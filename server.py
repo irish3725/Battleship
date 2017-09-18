@@ -11,7 +11,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 
 board = None
 bFile = None
-sunk = 0 
+sunk = 4 
 lastHit = None
 
 # This class handles requests
@@ -59,8 +59,10 @@ class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
         elif hit == 2:
             hit = 1
             sink = lastHit 
+            message = 'hit=%d' % hit
+            message = message + 'sink=%c' % sink
             if checkWin():
-                self.send_response(418, 'you win!')
+                self.send_response(418, message+' You win!')
         elif hit == 3:
             hit = 1
             sink = 0
