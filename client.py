@@ -29,12 +29,22 @@ def run():
     print(r1.read())
     print(r1.status,r1.reason)
     conn.close()
-    updateBoard(r1.reason)
+    updateBoard(r1.reason,params)
 
-def updateBoard(message):
+def updateBoard(message,params):
+    # get hit/sink results
     result = re.match('(hit=)(\d)(sink=)(\d)',message)
     hit = result.group(2)
     sink = result.group(4)
+    
+    # if hit is true make that on opponent board.
+    opponent = open('opponent.txt', 'r')
+    oBoard = opponent.read()
+    opponent.close()
+    print('x =', params[2]) 
+    print('y =', params[6]) 
+    
+    print(oBoard)
     print('hit =',hit)
     print('sink =',sink)
 
