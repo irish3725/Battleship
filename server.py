@@ -88,7 +88,7 @@ def checkBoard(i):
     if board[i] == '_':
         writeBoard(i,"-")
         return 0  
-    elif board[1] == '-' or board[1] == 'x':
+    elif board[i] == '-' or board[i] == 'x':
         return 1 
     else:
         writeBoard(i,"x")
