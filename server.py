@@ -11,13 +11,16 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 
 board = None
 bFile = None
-sunk = 4 
+sunk = 0 
+lastHit = None
 
 # This class handles requests
 class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
-        
+       
+        global lastHit
+        sink = " " 
         # make sure request is formatted correctly
         try:
             ctype, pdict = cgi.parse_header(self.headers['content-type'])
@@ -55,14 +58,14 @@ class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
             return
         elif hit == 2:
             hit = 1
-            sink = 1
+            sink = lastHit 
             if checkWin():
                 self.send_response(418, 'you win!')
         elif hit == 3:
             hit = 1
             sink = 0
         message = 'hit=%d' % hit
-        message = message + 'sink=%d' % sink
+        message = message + 'sink=%c' % sink
         print("message =",message)
 
         headers = {"Content-type": "applicaton/x-www-form-urlencoded", "Accept": "text/plain"}
@@ -99,8 +102,10 @@ def checkWin():
 def checkBoard(i):
     global board
     global sunk
-    boat = board[i]
-    print("boat =",boat)
+    global lastHit
+    lastHit = board[i]
+    
+    print("boat =",lastHit)
     if board[i] == '_':
         writeBoard(i,"-")
         return 0  
@@ -108,7 +113,7 @@ def checkBoard(i):
         return 1 
     else:
         writeBoard(i,"x")
-        if checkSink(boat):
+        if checkSink(lastHit):
             sunk += 1
             return 2
         return 3

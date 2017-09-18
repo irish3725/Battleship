@@ -16,7 +16,6 @@ def run():
     # parameters for the request request
     params = urllib.parse.urlencode({'x': x, 'y': y})
     print(params)   
-    #params = urllib.parse.urlencode({'@number': 12524, '@type': 'issue', '@action': 'show'})
     # headers for post request
     headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
     # connection to server
@@ -33,7 +32,7 @@ def run():
 
 def updateBoard(message,params):
     # get hit/sink results
-    result = re.match('(hit=)(\d)(sink=)(\d)',message)
+    result = re.match('(hit=)(\d)(sink=)(\w*)',message)
     if result == None: 
         return
     hit = result.group(2)
@@ -49,6 +48,8 @@ def updateBoard(message,params):
     mark = "-"
     if hit == "1":
         mark = "x"
+    if sink != "":
+        mark = sink
     print('x =',x) 
     print('y =',y) 
     oBoard = oBoard[:index] + mark + oBoard[index+1:]
