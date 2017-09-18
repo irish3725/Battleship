@@ -46,10 +46,13 @@ class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
         index = (11*y) + x
         print(x, y, index)
         hit = checkBoard(index)
-        if hit == True:
-            hit = 1
-        elif hit == False:
+        if hit == 0:
             hit = 0
+        elif hit == 1:
+            self.send_error(410, 'alrady fired there')
+            return
+        elif hit == 2:
+            hit = 1
         message = 'hit=%d' % hit
         message = message + 'sink=0'
         print(message)
@@ -83,9 +86,11 @@ class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
 def checkBoard(i):
     print(board[i])
     if board[i] == '_':
-        return False
+        return 0 
+    elif board[1] == '-' or board[1] == 'x':
+        return 1 
     else:
-        return True
+        return 2
 
 def readBoard(f):
     b = ""
