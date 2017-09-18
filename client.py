@@ -41,10 +41,19 @@ def updateBoard(message,params):
     opponent = open('opponent.txt', 'r')
     oBoard = opponent.read()
     opponent.close()
-    print('x =', params[2]) 
-    print('y =', params[6]) 
-    
+    x = int(float(params[2]))
+    y = int(float(params[6]))
+    index = x + (11 * y)
+    mark = "-"
+    if hit == "1":
+        mark = "X"
+    print('x =',x) 
+    print('y =',y) 
+    oBoard = oBoard[:index] + mark + oBoard[index+1:]
     print(oBoard)
+    opponent = open('opponent.txt', 'w')
+    opponent.write(oBoard)
+    opponent.close() 
     print('hit =',hit)
     print('sink =',sink)
 
