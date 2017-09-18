@@ -47,13 +47,18 @@ class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
         hit = checkBoard(index)
         if hit == 0:
             hit = 0
+            sink = 0
         elif hit == 1:
             self.send_error(410, 'alrady fired there')
             return
         elif hit == 2:
             hit = 1
+            sink = 1
+        elif hit == 3:
+            hit = 1
+            sink = 0
         message = 'hit=%d' % hit
-        message = message + 'sink=0'
+        message = message + 'sink=%d' % sink
         print("message =",message)
 
         headers = {"Content-type": "applicaton/x-www-form-urlencoded", "Accept": "text/plain"}
@@ -84,7 +89,8 @@ class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
 
 def checkBoard(i):
     global board
-    print("boat =",board[i])
+    boat = board[i]
+    print("boat =",boat)
     if board[i] == '_':
         writeBoard(i,"-")
         return 0  
@@ -92,7 +98,19 @@ def checkBoard(i):
         return 1 
     else:
         writeBoard(i,"x")
-        return 2
+        if checkSink(boat):
+            return 2
+        return 3
+
+def checkSink(boat):
+    global board
+    print("inside checkSink()")
+    print(boat)
+    print(board)
+    if boat in board:
+        return False
+    else:
+        return True
 
 def writeBoard(index, mark):
     global board 
