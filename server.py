@@ -10,6 +10,8 @@ import urllib
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 board = None
+bFile = None
+sunk = 4 
 
 # This class handles requests
 class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
@@ -54,6 +56,8 @@ class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
         elif hit == 2:
             hit = 1
             sink = 1
+            if checkWin():
+                self.send_response(418, 'you win!')
         elif hit == 3:
             hit = 1
             sink = 0
@@ -87,8 +91,14 @@ class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(bytes(message, "utf8"))
         return
 
+def checkWin():
+    global sunk
+    if sunk == 5:
+        return True
+
 def checkBoard(i):
     global board
+    global sunk
     boat = board[i]
     print("boat =",boat)
     if board[i] == '_':
@@ -99,6 +109,7 @@ def checkBoard(i):
     else:
         writeBoard(i,"x")
         if checkSink(boat):
+            sunk += 1
             return 2
         return 3
 
@@ -115,7 +126,7 @@ def checkSink(boat):
 def writeBoard(index, mark):
     global board 
     board = board[:index] + mark + board[index+1:]
-    f = open("board.txt","w")
+    f = open(sys.argv[2],"w")
     print("writing\n"+board)
     f.write(board)
     f.close()

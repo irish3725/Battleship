@@ -5,8 +5,8 @@ already fired there error                           x
 not formatted correctly error                       x
 write to own board                                  x
 write to opponent board                             x
-check for sink  
-check for win   
-reset all   
-change reference to board.txt                   
+check for sink                                      x 
+check for win                                       x 
+reset all                                           x 
+change reference to board.txt                       x 
 
