@@ -34,6 +34,8 @@ def run():
 def updateBoard(message,params):
     # get hit/sink results
     result = re.match('(hit=)(\d)(sink=)(\d)',message)
+    if result == None: 
+        return
     hit = result.group(2)
     sink = result.group(4)
     
@@ -46,7 +48,7 @@ def updateBoard(message,params):
     index = x + (11 * y)
     mark = "-"
     if hit == "1":
-        mark = "X"
+        mark = "x"
     print('x =',x) 
     print('y =',y) 
     oBoard = oBoard[:index] + mark + oBoard[index+1:]
