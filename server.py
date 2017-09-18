@@ -5,7 +5,7 @@ import sys
 import cgi 
 import urllib
 from os import curdir, sep
-from http.server import BaseHTTPRequestHandler, HTTPServer
+from http.server import BaseHTTPRequestHandler, HTTPServer, SimpleHTTPRequestHandler
 
 board = None
 bFile = None
@@ -14,7 +14,8 @@ lastHit = None
 done = False
 
 # This class handles requests
-class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
+#class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
+class HTTPServer_RequestHandler(SimpleHTTPRequestHandler):
 
     def do_POST(self):
        
@@ -81,34 +82,34 @@ class HTTPServer_RequestHandler(BaseHTTPRequestHandler):
 
     
     # handle get request
-    def do_GET(self):
-        
-        try:
-            if self.path.endswith(".txt"):
-                f = open(curdir + sep + self.path)
-                self.send_response(200)
-                self.send_header('Content-type',    'text/html')
-                self.end_headers()
-                self.wfile.write(bytes(f.read(),'utf8'))
-                f.close()
-                return
-            elif self.path.endswith(".html"):
-                f = open(curdir + sep + self.path)
-                self.send_response(200)
-                self.send_header('Content-type',    'text/html')
-                self.end_headers()
-                self.wfile.write(bytes(f.read(),'utf8'))
-                f.close()
-                return
+##    def do_GET(self):
+#        
+#        try:
+#            if self.path.endswith(".html"):
+#                f = open(curdir + sep + self.path)
+#                self.send_response(200)
+#                self.send_header('Content-type',    'text/html')
+#                self.end_headers()
+#                self.wfile.write(bytes(f.read(),'utf8'))
+#                f.close()
+#                return
+#            elif self.path.endswith(".html"):
+#                f = open(curdir + sep + self.path)
+#                self.send_response(200)
+#                self.send_header('Content-type',    'text/html')
+#                self.end_headers()
+#                self.wfile.write(bytes(f.read(),'utf8'))
+#                f.close()
+#                return
 
-        except IOError:
-            self.send_error(404,'File Not Found: %s' % self.path)
+#        except IOError:
+#            self.send_error(404,'File Not Found: %s' % self.path)
         # send message back to client
-        message = board.splitlines()
+#        message = board.splitlines()
         # write content as utf-8 data
-        for line in message:
-            self.wfile.write(bytes(line+"\n","utf8"))
-        return
+#        for line in message:
+#            self.wfile.write(bytes(line+"\n","utf8"))
+#        return
 
 def checkWin():
     global sunk
