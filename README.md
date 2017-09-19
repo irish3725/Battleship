@@ -1,6 +1,7 @@
+https://youtu.be/K3PqonpXOhg
 
 Alex Irish
-Brett Shelly
+Brett Shelley
 
 As of right now (Sep. 15th) the client and server both run and can
 speak to eachother on port 5000 of localhost. I haven't figured out
