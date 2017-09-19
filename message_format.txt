@@ -1,9 +1,14 @@
 
-We are using a POST request to send the fire message with 
+We are using a POST message to send the fire message with 
 the parameters in the format "fire?x=0y=0" for firing at 
 the spot (0,0)
 
 We are using an OK message to send the result back to the 
 client. The message is in the format "hit=1sink=D" for a
 hit and sink on the D boat.
+
+We are using a GET message to get the board to display online.
+ It is in the format http://IP:port/own_board.txt where IP 
+and port are the IP address and port number of the server. 
+opponent_board.txt can be used alternatively to own_board.txt
 
